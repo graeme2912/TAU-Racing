@@ -1,0 +1,25 @@
+{
+  "configurations": [
+    {
+      "inheritEnvironments": [
+        "msvc_x86"
+      ],
+      "name": "x86-Release",
+      "includePath": [
+        "${workspaceRoot}\\..\\..\\..\\..\\..\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\libraries\\SPI\\src",
+        "${workspaceRoot}\\..\\..\\..\\OneDrive\\University\\Arduino\\libraries\\Adafruit_VL53L0X",
+        "${workspaceRoot}\\..\\..\\..\\..\\..\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\libraries\\Wire\\src",
+        "${workspaceRoot}\\..\\..\\..\\OneDrive\\University\\Arduino\\libraries",
+        "${env.INCLUDE}",
+        "${workspaceRoot}\\**"
+      ],
+      "defines": [
+        "WIN32",
+        "NDEBUG",
+        "UNICODE",
+        "_UNICODE"
+      ],
+      "intelliSenseMode": "windows-msvc-x86"
+    }
+  ]
+}
