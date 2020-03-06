@@ -4,6 +4,10 @@
 #define INPUT_PIN A0
 CRGB leds[NUM_LEDS];
 
+const int shift_points[5] = {0, 9800, 9700, 9600, 9500};
+const int number_of_gears = 4;
+int current_gear;
+
 bool was_on;
 
 void setup() {
