@@ -1,6 +1,6 @@
 #include"mcp_can.h"
 
-const int SPI_CS_PIN = 9;
+const int SPI_CS_PIN = 10;
 
 MCP_CAN CAN(SPI_CS_PIN);
 
@@ -10,7 +10,7 @@ MCP_CAN CAN(SPI_CS_PIN);
 void setup() {
     Serial.begin(115200);
 
-    while (CAN_OK != CAN.begin(CAN_500KBPS, MCP_8MHz))              // init can bus : baudrate = 500k
+    while (CAN_OK != CAN.begin(CAN_1000KBPS, MCP_8MHz))              // init can bus : baudrate = 500k
     {
         Serial.println("CAN BUS Shield init fail");
         Serial.println(" Init CAN BUS Shield again");
