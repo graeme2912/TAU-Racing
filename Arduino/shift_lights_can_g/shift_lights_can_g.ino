@@ -1,6 +1,6 @@
 #include"mcp_can.h"
 #include <FastLED.h>
-#define LED_PIN     7
+#define LED_PIN     6
 #define NUM_LEDS    50
 #define INPUT_PIN A0
 CRGB leds[NUM_LEDS];
@@ -19,7 +19,7 @@ int current_gear;
 
 
 void setup() {
-	Serial.begin(115200);
+	//Serial.begin(115200);
 
 	while (CAN_OK != CAN.begin(CAN_1000KBPS, MCP_8MHz))              // init can bus : baudrate = 500k
 	{
@@ -76,7 +76,7 @@ void flashLights(bool danger) {
 		}
 	}
 
-	delay(40);
+	//delay(40);
 	was_on = !was_on;
 }
 
@@ -99,13 +99,15 @@ void lights(int leds_on) {
 	}
 }
 
-void update_lights(int rpm, int gear, int low_rpm, int high_rpm) {
+void update_lights(int rpm) {
+	int leds_on;
+	leds_on = map(rpm, 0, 100, 0, (1.4 * NUM_LEDS));
+
 	Serial.println(rpm);
-	int leds_on = map(rpm, low_rpm, high_rpm, 0, (1.4 * NUM_LEDS));
+	Serial.println(leds_on);
 
-
-	if (rpm > shift_points[gear]) {
-		if (rpm > shift_points[gear]) {
+	if (leds_on > NUM_LEDS) {
+		if (leds_on > (1.2 * NUM_LEDS)) {
 			flashLights(true);
 		} else {
 			flashLights(false);
@@ -153,32 +155,32 @@ void loop() {
 
 			//shift light test
 			//please be fast
-			update_lights(tps_data, 1, 0, 100);
+			update_lights(throttlePosition);
 		}
 
-		if (canId == 0x600) {
-			// Store the coolant temp
-//            coolantErr3Ref = (int16_t)((rxBuf[2] << 8) + rxBuf[3]);
-			// print throttle position
-			int vbat_data = (int16_t)((buf[4] << 8) + buf[5]); //slot 3
-			int rpm_data = (int16_t)((buf[0] << 8) + buf[1]); //slot 1
-			Serial.print("vbat_data ref pre-conversion: ");
-			Serial.println(vbat_data);
-			Serial.print("    vbat_data ref post-conversion: ");
-			double vbat = convert_vbat((double)vbat_data);
-			Serial.println(vbat);
-			Serial.print("RPM: ");
-			Serial.println(rpm_data);
-		}
-
-		if (canId == 0x60E) {
-			// Store the coolant temp
-//            coolantErr3Ref = (int16_t)((rxBuf[2] << 8) + rxBuf[3]);
-			// print throttle position
-			int gear_data = (int16_t)((buf[2] << 8) + buf[3]); //slot 2
-			Serial.print("Gear: ");
-			Serial.println(gear_data);
-		}
+//		if (canId == 0x600) {
+//			// Store the coolant temp
+////            coolantErr3Ref = (int16_t)((rxBuf[2] << 8) + rxBuf[3]);
+//			// print throttle position
+//			int vbat_data = (int16_t)((buf[4] << 8) + buf[5]); //slot 3
+//			int rpm_data = (int16_t)((buf[0] << 8) + buf[1]); //slot 1
+//			Serial.print("vbat_data ref pre-conversion: ");
+//			Serial.println(vbat_data);
+//			Serial.print("    vbat_data ref post-conversion: ");
+//			double vbat = convert_vbat((double)vbat_data);
+//			Serial.println(vbat);
+//			Serial.print("RPM: ");
+//			Serial.println(rpm_data);
+//		}
+//
+//		if (canId == 0x60E) {
+//			// Store the coolant temp
+////            coolantErr3Ref = (int16_t)((rxBuf[2] << 8) + rxBuf[3]);
+//			// print throttle position
+//			int gear_data = (int16_t)((buf[2] << 8) + buf[3]); //slot 2
+//			Serial.print("Gear: ");
+//			Serial.println(gear_data);
+//		}
 
 		Serial.println();
 	}
